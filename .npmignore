@@ -5,6 +5,6 @@
 /.gitattributes
 
 /.vscode
-
+/docs
 /scripts
 package-lock.json
