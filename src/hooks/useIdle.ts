@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
  * A React hook for detecting user idle state based on inactivity.
  * 
  * @param idleTimeout - The duration of inactivity (in milliseconds) before considering the user idle.
- * @returns A boolean indicating whether the user is currently active or idle.
+ * @returns A boolean indicating whether the user is currently active or idle. Returns `true` if the user is active, and `false` if the user is idle.
  * 
  * @example
  * ```
