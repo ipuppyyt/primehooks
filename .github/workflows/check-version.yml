@@ -1,0 +1,60 @@
+name: Check Package Version Update
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'package.json'
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get current package.json version
+        id: current-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Checkout base branch
+        run: git checkout ${{ github.base_ref }}
+
+      - name: Get base package.json version
+        id: base-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Compare versions
+        id: compare
+        run: |
+          if [ "${{ steps.current-version.outputs.version }}" == "${{ steps.base-version.outputs.version }}" ]; then
+            echo "Version not updated"
+            echo "updated=false" >> $GITHUB_OUTPUT
+          else
+            echo "Version updated from ${{ steps.base-version.outputs.version }} to ${{ steps.current-version.outputs.version }}"
+            echo "updated=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment on PR if version not updated
+        if: steps.compare.outputs.updated == 'false'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ **Version Check Failed**\n\nThe package.json version has not been updated. Please increment the version number before merging this PR.'
+            })
+
+      - name: Fail if version not updated
+        if: steps.compare.outputs.updated == 'false'
+        run: |
+          echo "::error::Package version must be updated in package.json"
+          exit 1
