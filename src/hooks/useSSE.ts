@@ -105,7 +105,6 @@ export function useSSE<T = unknown>(
     useEffect(() => {
         if (!url) return;
 
-        // Only reset retries on initial mount or manual reconnect
         if (isInitialMount.current) {
             retriesLeftRef.current = reconnectAttempts;
             setRetriesLeft(reconnectAttempts);
