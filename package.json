@@ -1,23 +1,38 @@
 {
   "name": "primehooks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "release": "node bump-version.js && npm publish"
+    "build": "tsup",
+    "release": "node scripts/bump-version.js && npm publish"
   },
   "keywords": [],
-  "license": "GPL-3.0",
+  "license": "MIT",
   "author": "iPuppyYT",
   "files": [
-    "build"
+    "dist"
   ],
   "dependencies": {
     "react": "^19.2.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.0",
+    "ora": "^9.0.0",
+    "prompts": "^2.4.2",
+    "semver": "^7.7.2",
+    "tsup": "^8.5.0",
     "typescript": "^5.9.3"
   },
   "repository": {
