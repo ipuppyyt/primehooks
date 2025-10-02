@@ -1,6 +1,6 @@
 {
   "name": "primehooks",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "release": "node deploy/deploy-to-github.js && npm publish"
+    "release": "tsup && node deploy/deploy-to-github.js && npm publish"
   },
   "keywords": [
     "react",
