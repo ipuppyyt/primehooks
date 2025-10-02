@@ -1,15 +1,14 @@
 {
   "name": "primehooks",
-  "version": "1.2.0",
-  "description": "",
+  "version": "1.2.1",
+  "description": "Modern, lightweight and performance-optimized React hooks library for building powerful web applications with ease.",
   "type": "module",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "import": "./dist/index.js"
     }
   },
   "publishConfig": {
