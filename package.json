@@ -1,6 +1,6 @@
 {
   "name": "primehooks",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Modern, lightweight and performance-optimized React hooks library for building powerful web applications with ease.",
   "type": "module",
   "main": "dist/index.js",
