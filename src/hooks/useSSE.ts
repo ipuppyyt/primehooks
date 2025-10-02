@@ -3,12 +3,12 @@ import { SSEOptions, UseSSEResult } from "../types";
 
 /**
  * A React hook for managing Server-Sent Events (SSE) connections.
- * 
- * @template T - The expected type of data received from the SSE stream
- * @param url - The URL to connect to for SSE
- * @param options - Configuration options for the SSE connection. Has an export for type 'SSEOptions'.
- * @returns An object containing connection status, received data, error information, and control functions
- * 
+ *
+ * @template {T} T - The expected type of data received from the SSE stream
+ * @param {string} url - The URL to connect to for SSE
+ * @param {SSEOptions} options - Configuration options for the SSE connection. Has an export for type 'SSEOptions'.
+ * @returns {UseSSEResult<T>} - An object containing connection status, received data, error information, and control functions
+ * with an export for type 'UseSSEResult'.
  * @example
  * ```
  * // Define the expected data shape
