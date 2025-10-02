@@ -31,10 +31,8 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-    "react": "^19.2.0"
-  },
   "devDependencies": {
+    "react": "^19.2.0",
     "@types/react": "^19.2.0",
     "ora": "^9.0.0",
     "prompts": "^2.4.2",

@@ -18,13 +18,16 @@ import { SSEOptions, UseSSEResult } from "../types";
  * }
  * 
  * // Use the hook in a component
- * const { isConnected, data, error, close, reconnect } = useSSE<MyEventData>(
+ * const { isConnected, data, error, reconnectTimedOut, retriesLeft, close, reconnect } = useSSE<MyEventData>(
  *   "https://example.com/sse-endpoint",
  *   {
  *     withCredentials: false,
- *     eventTypes: ["message", "custom-event"],
+ *     eventType: "message",
  *     autoReconnect: true,
  *     reconnectInterval: 4000,
+ *     reconnectAttempts: 5,
+ *     onOpen: (event) => console.log("Connection opened:", event),
+ *     onError: (event) => console.error("Connection error:", event),
  *   }
  * );
  * ```
@@ -35,20 +38,26 @@ export function useSSE<T = unknown>(
 ): UseSSEResult<T> {
     const {
         withCredentials = false,
-        eventTypes = ["message"],
+        eventType = "message",
         autoReconnect = false,
         reconnectInterval = 3000,
+        reconnectAttempts = 10,
         onOpen,
         onError,
     } = options;
 
     const [isConnected, setIsConnected] = useState(false);
     const [data, setData] = useState<T>();
-    const [error, setError] = useState<Event | null>(null);
+    const [error, setError] = useState<Error | null>(null);
     const [reconnectTrigger, setReconnectTrigger] = useState(0);
+    const [reconnectTimedOut, setReconnectTimedOut] = useState(false);
+    const [retriesLeft, setRetriesLeft] = useState<number | undefined>(reconnectAttempts);
+
+    const retriesLeftRef = useRef(reconnectAttempts);
     const eventSourceRef = useRef<EventSource | null>(null);
     const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const manualCloseRef = useRef(false);
+    const isInitialMount = useRef(true);
 
     const onOpenRef = useRef(onOpen);
     const onErrorRef = useRef(onError);
@@ -58,12 +67,17 @@ export function useSSE<T = unknown>(
         onErrorRef.current = onError;
     }, [onOpen, onError]);
 
-    const close = useCallback(() => {
-        manualCloseRef.current = true;
+    const clearReconnectTimeout = () => {
         if (reconnectTimeoutRef.current) {
             clearTimeout(reconnectTimeoutRef.current);
             reconnectTimeoutRef.current = null;
         }
+    };
+
+    const close = useCallback(() => {
+        manualCloseRef.current = true;
+        clearReconnectTimeout();
+        setRetriesLeft(undefined);
         if (eventSourceRef.current) {
             eventSourceRef.current.close();
             eventSourceRef.current = null;
@@ -73,10 +87,11 @@ export function useSSE<T = unknown>(
 
     const reconnect = useCallback(() => {
         manualCloseRef.current = false;
-        if (reconnectTimeoutRef.current) {
-            clearTimeout(reconnectTimeoutRef.current);
-            reconnectTimeoutRef.current = null;
-        }
+        isInitialMount.current = false;
+        clearReconnectTimeout();
+        setReconnectTimedOut(false);
+        retriesLeftRef.current = reconnectAttempts;
+        setRetriesLeft(reconnectAttempts);
         if (eventSourceRef.current) {
             eventSourceRef.current.close();
             eventSourceRef.current = null;
@@ -84,15 +99,25 @@ export function useSSE<T = unknown>(
         setError(null);
         setData(undefined);
         setIsConnected(false);
-        setReconnectTrigger((prev: number) => prev + 1);
-    }, []);
-
-    const eventTypesKey = useMemo(() => eventTypes.join(","), [eventTypes]);
+        setReconnectTrigger(prev => prev + 1);
+    }, [reconnectAttempts]);
 
     useEffect(() => {
         if (!url) return;
 
+        // Only reset retries on initial mount or manual reconnect
+        if (isInitialMount.current) {
+            retriesLeftRef.current = reconnectAttempts;
+            setRetriesLeft(reconnectAttempts);
+            isInitialMount.current = false;
+        }
+
+        const wasManualClose = manualCloseRef.current;
         manualCloseRef.current = false;
+
+        if (!wasManualClose) {
+            setReconnectTimedOut(false);
+        }
 
         const es = new EventSource(url, { withCredentials });
         eventSourceRef.current = es;
@@ -100,52 +125,73 @@ export function useSSE<T = unknown>(
         es.onopen = (event) => {
             setIsConnected(true);
             setError(null);
+            setReconnectTimedOut(false);
             onOpenRef.current?.(event);
         };
 
         es.onerror = (event) => {
             setIsConnected(false);
-            setError(event);
+
+            if (eventSourceRef.current?.readyState === EventSource.CLOSED) {
+                setError(new Error("URL not accessible"));
+            } else {
+                setError(new Error("Connection error"));
+            }
+
             onErrorRef.current?.(event);
 
-            if (autoReconnect && !manualCloseRef.current) {
-                reconnectTimeoutRef.current = setTimeout(() => {
-                    reconnect();
-                }, reconnectInterval);
+            if (
+                autoReconnect &&
+                !manualCloseRef.current &&
+                retriesLeftRef.current > 0
+            ) {
+                retriesLeftRef.current -= 1;
+                setRetriesLeft(retriesLeftRef.current);
+
+                if (retriesLeftRef.current === 0) {
+                    setReconnectTimedOut(true);
+                } else {
+                    reconnectTimeoutRef.current = setTimeout(() => {
+                        setReconnectTrigger(prev => prev + 1);
+                    }, reconnectInterval);
+                }
+            } else if (retriesLeftRef.current === 0) {
+                setReconnectTimedOut(true);
             }
         };
 
-        const parsedEventTypes = eventTypesKey.split(",");
-        const listeners: Map<string, EventListener> = new Map();
-
-        parsedEventTypes.forEach((eventType: string) => {
-            const handler: EventListener = (event) => {
-                if (eventType === "message" && event instanceof MessageEvent) {
-                    try {
-                        setData(JSON.parse(event.data) as T);
-                    } catch {
-                        setData(undefined);
-                    }
+        const handler: EventListener = (event) => {
+            if (event instanceof MessageEvent) {
+                try {
+                    setData(JSON.parse(event.data) as T);
+                } catch {
+                    setData(undefined);
                 }
-            };
-            es.addEventListener(eventType, handler);
-            listeners.set(eventType, handler);
-        });
+            } else {
+                setData(undefined);
+            }
+        };
+
+        es.addEventListener(eventType, handler);
 
         return () => {
-            listeners.forEach((handler, eventType) => {
-                es.removeEventListener(eventType, handler);
-            });
-            listeners.clear();
-            es.close();
-            eventSourceRef.current = null;
-            setIsConnected(false);
-            if (reconnectTimeoutRef.current) {
-                clearTimeout(reconnectTimeoutRef.current);
-                reconnectTimeoutRef.current = null;
+            clearReconnectTimeout();
+            if (eventSourceRef.current) {
+                eventSourceRef.current.removeEventListener(eventType, handler);
+                eventSourceRef.current.close();
+                eventSourceRef.current = null;
             }
+            setIsConnected(false);
         };
-    }, [url, withCredentials, eventTypesKey, reconnectTrigger, autoReconnect, reconnectInterval, reconnect]);
+    }, [
+        url,
+        withCredentials,
+        eventType,
+        reconnectTrigger,
+        autoReconnect,
+        reconnectInterval,
+        reconnectAttempts,
+    ]);
 
-    return { isConnected, data, error, close, reconnect };
+    return { isConnected, data, error, reconnectTimedOut, retriesLeft, close, reconnect };
 }
