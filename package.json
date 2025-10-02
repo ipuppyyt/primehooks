@@ -1,6 +1,6 @@
 {
   "name": "primehooks",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -18,7 +18,14 @@
     "build": "tsup",
     "release": "node deploy/deploy-to-github.js && npm publish"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "hooks",
+    "library",
+    "typescript",
+    "usehooks",
+    "customhooks"
+  ],
   "license": "MIT",
   "author": "iPuppyYT",
   "files": [
