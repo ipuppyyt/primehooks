@@ -1,0 +1,45 @@
+name: Check Package Version Update
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Get current package.json version
+        id: current-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Fetch base branch
+        run: |
+          git fetch origin ${{ github.base_ref }}
+
+      - name: Get base package.json version
+        id: base-version
+        run: |
+          VERSION=$(git show origin/${{ github.base_ref }}:package.json | node -p "JSON.parse(require('fs').readFileSync('/dev/stdin', 'utf-8')).version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Compare versions
+        run: |
+          CURRENT="${{ steps.current-version.outputs.version }}"
+          BASE="${{ steps.base-version.outputs.version }}"
+          
+          echo "Base version: $BASE"
+          echo "Current version: $CURRENT"
+          
+          if [ "$CURRENT" == "$BASE" ]; then
+            echo "::error::Package version must be updated in package.json (currently $CURRENT)"
+            exit 1
+          else
+            echo "✅ Version updated from $BASE to $CURRENT"
+          fi
