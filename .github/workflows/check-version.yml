@@ -39,7 +39,7 @@ jobs:
           echo "Base version: $BASE"
           echo "Current version: $CURRENT"
 
-          if [ "$(printf '%s\n' "$BASE" "$CURRENT" | sort -V | head -n1)" != "$CURRENT" ]; then
+          if [ "$CURRENT" = "$BASE" ] || [ "$(printf '%s\n' "$BASE" "$CURRENT" | sort -V | head -n1)" = "$CURRENT" ]; then
             echo "::error::Package version must be updated in package.json (currently $CURRENT)"
             curl -s -X POST \
               -H "Authorization: token $GITHUB_TOKEN" \
