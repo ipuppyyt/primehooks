@@ -1,0 +1,34 @@
+{
+  "name": "primehooks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "release": "node bump-version.js && npm publish"
+  },
+  "keywords": [],
+  "license": "GPL-3.0",
+  "author": "iPuppyYT",
+  "files": [
+    "build"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipuppyyt/primehooks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ipuppyyt/primehooks/issues"
+  },
+  "funding": {
+    "type": "githubsponsor",
+    "url": "https://github.com/sponsors/ipuppyyt"
+  },
+  "homepage": "https://github.com/ipuppyyt/primehooks#readme",
+  "packageManager": "pnpm@10.15.0"
+}

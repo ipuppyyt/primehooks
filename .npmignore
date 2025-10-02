@@ -1,0 +1,10 @@
+/node_modules
+
+/.github
+/.gitignore
+/.gitattributes
+
+/.vscode
+
+/scripts
+package-lock.json
