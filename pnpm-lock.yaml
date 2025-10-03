@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      react:
-        specifier: ^19.2.0
-        version: 19.2.0
     devDependencies:
       '@types/react':
         specifier: ^19.2.0
@@ -21,9 +17,9 @@ importers:
       prompts:
         specifier: ^2.4.2
         version: 2.4.2
-      semver:
-        specifier: ^7.7.2
-        version: 7.7.2
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(typescript@5.9.3)
@@ -617,11 +613,6 @@ packages:
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
-  semver@7.7.2:
-    resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}
     engines: {node: '>=8'}
@@ -1200,8 +1191,6 @@ snapshots:
       '@rollup/rollup-win32-x64-gnu': 4.52.3
       '@rollup/rollup-win32-x64-msvc': 4.52.3
       fsevents: 2.3.3
-
-  semver@7.7.2: {}
 
   shebang-command@2.0.0:
     dependencies:
