@@ -50,6 +50,7 @@
     "type": "githubsponsor",
     "url": "https://github.com/sponsors/ipuppyyt"
   },
+  "repoURL": "https://github.com/ipuppyyt/primehooks",
   "homepage": "https://github.com/ipuppyyt/primehooks#readme",
   "packageManager": "pnpm@10.15.0"
 }

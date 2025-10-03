@@ -6,5 +6,6 @@
 
 /.vscode
 /docs
+/web
 /scripts
 package-lock.json
