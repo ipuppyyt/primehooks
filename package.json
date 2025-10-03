@@ -1,22 +1,25 @@
 {
   "name": "primehooks",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Modern, lightweight and performance-optimized React hooks library for building powerful web applications with ease.",
+  "license": "MIT",
+  "author": "iPuppyYT",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "require": "./dist/index.cjs"
     }
   },
-  "publishConfig": {
-    "access": "public"
-  },
+  "sideEffects": false,
   "scripts": {
+    "prebuild": "tsc -p tsconfig.json --noEmit",
     "build": "tsup",
+    "prerelease": "tsc -p tsconfig.json --noEmit",
     "release": "tsup && node deploy/deploy-to-github.js && npm publish"
   },
   "keywords": [
@@ -27,19 +30,6 @@
     "usehooks",
     "customhooks"
   ],
-  "license": "MIT",
-  "author": "iPuppyYT",
-  "files": [
-    "dist"
-  ],
-  "devDependencies": {
-    "react": "^19.2.0",
-    "@types/react": "^19.2.0",
-    "ora": "^9.0.0",
-    "prompts": "^2.4.2",
-    "tsup": "^8.5.0",
-    "typescript": "^5.9.3"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ipuppyyt/primehooks.git"
@@ -48,10 +38,33 @@
     "url": "https://github.com/ipuppyyt/primehooks/issues"
   },
   "funding": {
-    "type": "githubsponsor",
+    "type": "github",
     "url": "https://github.com/sponsors/ipuppyyt"
   },
-  "repoURL": "https://github.com/ipuppyyt/primehooks",
   "homepage": "https://github.com/ipuppyyt/primehooks#readme",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "LICENSE.md"
+  ],
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": false
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "ora": "^9.0.0",
+    "prompts": "^2.4.2",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "packageManager": "pnpm@10.15.0"
 }
