@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import 'tailwind-scrollbar-hide/v4';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -120,6 +121,13 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer utilities {
+  /* Chrome/Safari/Opera/Chromium Edge */
+  .scrollbar-hidden::-webkit-scrollbar { display: none; }
+  /* Firefox + legacy Edge/IE engines */
+  .scrollbar-hidden { scrollbar-width: none; -ms-overflow-style: none; }
 }
 
 ::view-transition-old(root),
