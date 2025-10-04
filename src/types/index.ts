@@ -1,2 +1,2 @@
 export * from './useSSE';
-export * from './keystroke';
+export * from './useKeystroke';

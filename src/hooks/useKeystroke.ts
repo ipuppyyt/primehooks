@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { KeyboardKey } from "../types";
 
 /**
  * 
@@ -48,7 +49,7 @@ function modifiersMatch(event: KeyboardEvent, keys: string[]) {
  * return <div>Enter key pressed {count} times</div>;
  * ```
  */
-export const useKeyDown = (key: string, callback: () => void) => {
+export const useKeyDown = (key: KeyboardKey, callback: () => void) => {
     const callbackRef = useRef(callback);
 
     useEffect(() => {
@@ -99,7 +100,7 @@ export const useKeyDown = (key: string, callback: () => void) => {
  * return <div>Last key released: {lastKey}</div>;
  * ```
  */
-export const useKeyUp = (key: string, callback: (event: KeyboardEvent) => void) => {
+export const useKeyUp = (key: KeyboardKey, callback: (event: KeyboardEvent) => void) => {
     const callbackRef = useRef(callback);
 
     useEffect(() => {
@@ -151,7 +152,7 @@ export const useKeyUp = (key: string, callback: (event: KeyboardEvent) => void) 
  * return <div>{pressed ? 'S pressed!' : 'Press S'}</div>;
  * ```
  */
-export const useKeyPress = (key: string, callback: () => void) => {
+export const useKeyPress = (key: KeyboardKey, callback: () => void) => {
     const callbackRef = useRef(callback);
 
     useEffect(() => {
@@ -198,7 +199,7 @@ export const useKeyPress = (key: string, callback: () => void) => {
  * return <div>Save command triggered {saveCount} times</div>;
  * ```
  */
-export const useKeyPressCombination = (keys: string[], callback: () => void) => {
+export const useKeyPressCombination = (keys: KeyboardKey[], callback: () => void) => {
     const pressedKeysRef = useRef<Set<string>>(new Set());
     const callbackRef = useRef(callback);
 
