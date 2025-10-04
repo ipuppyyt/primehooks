@@ -1,4 +1,4 @@
 export * from './useSSE';
 export * from './useIdle';
-export * from './useDebouncer';
+export * from './useDebounce';
 export * from './useKeystroke';

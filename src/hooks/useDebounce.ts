@@ -22,7 +22,7 @@ import { useState, useEffect, useRef } from "react";
  * );
  * ```
  */
-export function useDebouncer<T = string>(value: T, delay: number): T {
+export function useDebounce<T = string>(value: T, delay: number): T {
     const [debouncedValue, setDebouncedValue] = useState<T>(value);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
