@@ -1,0 +1,67 @@
+# Contributing to primehooks
+Thanks for taking the time to contribute to primehooks — a collection of high-quality React hooks. Contributions of all kinds are welcome: bug reports, docs, tests, features, and performance improvements. Please read these guidelines before opening an issue or pull request.
+
+### Code of conduct
+By participating, all community members agree to uphold a respectful, inclusive environment.
+
+### Repository setup
+Fork the repository and create a feature branch from main for changes. Keep branches focused and small for easier review. Name the branch `hook/hookName` and create a PR.
+
+Use `pnpm` or `npm` for package management and consistent lockfiles. Run `pnpm install` or `npm install` after cloning to set up dependencies.
+
+As this repo is a monorepo, work within the relevant `src` directory. Also add docs referencing other docs from the `docs` directory present in the root.
+
+Ensure the Rules of Hooks are followed and make sure to run `pnpm run build` or `npm run build` to check the type and successful builds
+
+### Documentation
+For adding a new hook, add the relevant documentation into the `docs` directory present in the root.
+
+### Commit messages
+Use Conventional Commits for clarity and automated release tooling:
+
+feat(useX): add new option Y
+
+fix(useDebounce): correct cleanup on unmount
+
+docs: add usage examples for useToggle
+
+refactor(useFetch): split internal reducer
+
+test(useInterval): add timing edge cases
+
+Include BREAKING CHANGE: notes in body when applicable.
+
+### Pull requests
+Ensure all checks pass: build, lint, and type-checking. Include or update tests and docs with code changes.
+
+Reference related issues with closes #123 in the PR description. Provide motivation, approach, and any trade-offs.
+
+Keep PRs focused; large changes should be discussed in an issue before implementation. Draft PRs are welcome for early feedback.
+
+### Filing issues
+Before opening an issue, search existing issues and discussions. When filing:
+
+Bug report: include versions, minimal reproduction (CodeSandbox/StackBlitz), expected vs actual behavior, and environment details.
+
+Feature request: describe the use case, API proposal, and prior art; link related issues or libraries for context.
+
+### Release and versioning
+primehooks should follow semantic versioning:
+
+Patch: bug fixes that are backward compatible.
+
+Minor: backward-compatible features and improvements.
+
+Major: breaking changes, accompanied by migration notes and deprecations when possible.
+
+### Local checks
+Run these before pushing:
+
+`pnpm run lint` — code style and hooks rules
+
+`pnpm run build` — ensure build artifacts compile without type errors
+
+### Getting help
+Questions, ideas, or need a review? Open a discussion or a draft PR to get early feedback before writing extensive code. First-time contributors may find “good first issue” and “help wanted” labels useful.
+
+#### Thanks again for contributing to primehooks. Thoughtful issues, focused PRs, and clear tests/docs help keep the hooks reliable for everyone.
