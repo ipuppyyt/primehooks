@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import * as Babel from '@babel/standalone'
 import { useLanguage } from '@/providers'
 import { CodeBlock } from './code-block'
@@ -8,7 +8,7 @@ interface CodeSwitcherProps {
     filename?: string;
     highlightLines?: number[];
     autoConvert?: boolean;
-    switcher?: boolean
+    switcher?: boolean;
 }
 
 export function CodeSwitcher({
@@ -22,6 +22,8 @@ export function CodeSwitcher({
     const { activeLanguage } = useLanguage();
 
     useEffect(() => {
+        if (!switcher) return;
+
         if (autoConvert && activeLanguage === 'js') {
             try {
                 const result = Babel.transform(children, {
@@ -56,19 +58,35 @@ export function CodeSwitcher({
                 setJsCode(children);
             }
         }
-    }, [children, activeLanguage, autoConvert, filename]);
+    }, [children, activeLanguage, autoConvert, filename, switcher]);
 
-    const displayCode = activeLanguage === 'ts' ? children : jsCode;
-    const displayFilename = filename
-        ? filename.replace(/\.(js|ts|jsx|tsx)$/, `.${activeLanguage}${filename.includes('x') ? 'x' : ''}`)
-        : undefined;
+    const displayLanguage = useMemo(() => {
+        if (!switcher) return 'typescript';
+        return activeLanguage === 'ts' ? 'typescript' : 'javascript';
+    }, [switcher, activeLanguage]);
+
+    const displayCode = useMemo(() => {
+        if (!switcher) return children;
+        return activeLanguage === 'ts' ? children : jsCode;
+    }, [switcher, children, activeLanguage, jsCode]);
+
+    const displayFilename = useMemo(() => {
+        if (!switcher) return filename;
+        return filename
+            ? filename.replace(/\.(js|ts|jsx|tsx)$/, `.${activeLanguage}${filename.includes('x') ? 'x' : ''}`)
+            : undefined;
+    }, [switcher, filename, activeLanguage]);
+
+    const format = useMemo(() => {
+        return switcher ? true : false;
+    }, [switcher]);
 
     return (
         <CodeBlock
-            language={activeLanguage === 'ts' ? 'typescript' : 'javascript'}
+            language={displayLanguage}
             filename={displayFilename}
             highlightLines={highlightLines}
-            format={true}
+            format={format}
             switcher={switcher}
         >
             {displayCode}
