@@ -18,6 +18,7 @@ interface CodeBlockProps {
     filename?: string;
     highlightLines?: number[];
     format?: boolean;
+    switcher?: boolean
 }
 
 const languageParserMap: Record<string, string> = {
@@ -66,6 +67,7 @@ export function CodeBlock({
     filename,
     highlightLines = [],
     format = true,
+    switcher = true
 }: CodeBlockProps) {
     const [copied, setCopied] = useState<boolean>(false);
     const { activeLanguage, setActiveLanguage } = useLanguage();
@@ -141,24 +143,25 @@ export function CodeBlock({
                 <div className="flex items-center justify-between border-b border-zinc-400 dark:border-zinc-800 px-4 py-2 bg-zinc-200 dark:bg-zinc-900">
                     <span className='text-sm text-zinc-700 dark:text-zinc-400'>{filename}</span>
 
-                    <div className="border border-zinc-800 dark:border-zinc-600 rounded-md">
-                        <Button
-                            size="sm"
-                            variant={activeLanguage === 'js' ? 'default' : 'ghost'}
-                            onClick={() => setActiveLanguage('js')}
-                            className="h-7 px-3 text-xs rounded-r-none"
-                        >
-                            JS
-                        </Button>
-                        <Button
-                            size="sm"
-                            variant={activeLanguage === 'ts' ? 'default' : 'ghost'}
-                            onClick={() => setActiveLanguage('ts')}
-                            className="h-7 px-3 text-xs rounded-l-none"
-                        >
-                            TS
-                        </Button>
-                    </div>
+                    {switcher &&
+                        <div className="border border-zinc-800 dark:border-zinc-600 rounded-md">
+                            <Button
+                                size="sm"
+                                variant={activeLanguage === 'js' ? 'default' : 'ghost'}
+                                onClick={() => setActiveLanguage('js')}
+                                className="h-7 px-3 text-xs rounded-r-none"
+                            >
+                                JS
+                            </Button>
+                            <Button
+                                size="sm"
+                                variant={activeLanguage === 'ts' ? 'default' : 'ghost'}
+                                onClick={() => setActiveLanguage('ts')}
+                                className="h-7 px-3 text-xs rounded-l-none"
+                            >
+                                TS
+                            </Button>
+                        </div>}
                 </div>
             )}
             <div className="relative">
@@ -174,7 +177,7 @@ export function CodeBlock({
                         <Copy className="h-4 w-4 text-zinc-400" />
                     )}
                 </Button>
-                
+
                 <SyntaxHighlighter
                     language={language}
                     style={!isDarkMode ? gruvboxLight : vscDarkPlus}

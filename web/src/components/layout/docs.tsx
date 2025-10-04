@@ -5,7 +5,7 @@ import { Header } from './header'
 
 export function DocsLayout() {
     return (
-        <div className="min-h-screen mx-auto max-w-screen-2xl">
+        <div className="max-h-screen overflow-hidden mx-auto max-w-screen-2xl">
             <Header />
             <div className="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
                 {/* Sidebar - hidden on mobile */}

@@ -8,6 +8,7 @@ interface CodeSwitcherProps {
     filename?: string;
     highlightLines?: number[];
     autoConvert?: boolean;
+    switcher?: boolean
 }
 
 export function CodeSwitcher({
@@ -15,6 +16,7 @@ export function CodeSwitcher({
     filename,
     highlightLines = [],
     autoConvert = true,
+    switcher = true
 }: CodeSwitcherProps) {
     const [jsCode, setJsCode] = useState<string>('');
     const { activeLanguage } = useLanguage();
@@ -67,6 +69,7 @@ export function CodeSwitcher({
             filename={displayFilename}
             highlightLines={highlightLines}
             format={true}
+            switcher={switcher}
         >
             {displayCode}
         </CodeBlock>

@@ -9,6 +9,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 // Load MDX modules lazily
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -207,8 +208,12 @@ export function DocsPage() {
                 </BreadcrumbList>
             </Breadcrumb>
 
-            <div className="markdown-content">
-                <MdxComponent />
+            <div className="flex-1 min-h-0">
+                <ScrollArea className="h-[calc(100vh-10rem)]">
+                    <div className="markdown-content">
+                        <MdxComponent />
+                    </div>
+                </ScrollArea>
             </div>
         </div>
     );

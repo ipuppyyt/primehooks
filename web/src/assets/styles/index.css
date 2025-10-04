@@ -135,3 +135,7 @@
 ::view-transition-new(root) {
     animation-duration: 500ms;
 }
+
+/* globals.css */
+html, body, #root { height: 100%; }
+body { overflow: hidden; }

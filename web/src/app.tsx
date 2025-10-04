@@ -13,6 +13,7 @@ export function App() {
 
         <Route path="/docs/hooks" element={<Navigate to="/docs/hooks/use-counter" />} />
 
+        <Route path="/docs/community" element={<Navigate to="/docs/community/contributing" />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

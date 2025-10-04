@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CodeSwitcher } from '@/components/atoms';
+import { CodeSwitcher, MdxLink } from '@/components/atoms';
 import { MDXProvider as BaseMDXProvider } from '@mdx-js/react';
 import { type ReactNode } from 'react';
 
@@ -25,12 +25,7 @@ const components = {
     p: (props: any) => (
         <p className="leading-7 mb-4 text-muted-foreground" {...props} />
     ),
-    a: (props: any) => (
-        <a
-            className="text-primary font-medium underline-offset-4 hover:underline"
-            {...props}
-        />
-    ),
+    a: MdxLink,
     ul: (props: any) => (
         <ul className="my-6 ml-6 list-disc space-y-2 [&>li]:mt-2" {...props} />
     ),
