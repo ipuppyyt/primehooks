@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { KeyboardKey } from "../types";
 
 /**
  * 
