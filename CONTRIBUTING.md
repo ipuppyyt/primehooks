@@ -1,4 +1,4 @@
-# Contributing to primehooks
+# Contributing to Primehooks
 Thanks for taking the time to contribute to primehooks — a collection of high-quality React hooks. Contributions of all kinds are welcome: bug reports, docs, tests, features, and performance improvements. Please read these guidelines before opening an issue or pull request.
 
 ### Code of conduct
