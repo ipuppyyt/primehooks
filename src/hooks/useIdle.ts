@@ -1,24 +1,26 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react'
 
 /**
  * A React hook for detecting user idle state based on inactivity.
  *
  * @param {number} idleTimeout - The duration of inactivity (in milliseconds) before considering the user idle.
- * @returns {boolean} - A boolean indicating whether the user is currently active or idle. Returns `true` if the user is active, and `false` if the user is idle.
- * 
+ * @returns {isOnline: boolean, isIdle: boolean} - An object containing two booleans: 
+ *   {isOnline, isIdle}. `isOnline` is `true` if the user is active, 
+ *   and `isIdle` is `true` if the user is idle.
+ *
  * @example
  * ```
- * const isOnline = useIdle(3000); // User is considered idle after 3 seconds of inactivity
+ * const {isOnline, isIdle} = useIdle(3000); 
  * 
  * return (
  *   <div>
- *     {isOnline ? "User is active" : "User is idle"}
+ *     <span>{isOnline ? "User is active" : "User is idle"}</span>
+ *     <span>{isIdle ? "User is idle" : "User is active"}</span>
  *   </div>
  * );
  * ```
  */
-
-export function useIdle(idleTimeout: number = 5000): boolean {
+export function useIdle(idleTimeout: number = 5000): { isOnline: boolean; isIdle: boolean; } {
     const [isOnline, setIsOnline] = useState<boolean>(true);
     const lastActivityRef = useRef<number>(Date.now());
 
@@ -52,5 +54,6 @@ export function useIdle(idleTimeout: number = 5000): boolean {
         };
     }, [idleTimeout, isOnline]);
 
-    return isOnline;
+    const isIdle = !isOnline;
+    return { isOnline, isIdle };
 }
