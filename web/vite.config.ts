@@ -9,44 +9,49 @@ import mdx from '@mdx-js/rollup'
 import remarkGfm from 'remark-gfm'
 import path from "path"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mdxResolver: any = {
-  enforce: 'pre',
-  ...mdx({
-    remarkPlugins: [
-      remarkGfm,
-      remarkFrontmatter,
-      remarkMdxFrontmatter,
+export default defineConfig(({ mode }) => {
+  return {
+    root: path.resolve(__dirname, './'),
+    plugins: [
+      searchIndexPlugin(),
+      {
+        enforce: 'pre',
+        ...mdx({
+          remarkPlugins: [
+            remarkGfm,
+            remarkFrontmatter,
+            remarkMdxFrontmatter,
+          ],
+          rehypePlugins: [rehypeHighlight],
+          providerImportSource: '@mdx-js/react',
+          development: mode === 'development',
+        }),
+      },
+      react(),
+      tailwindcss(),
     ],
-    rehypePlugins: [rehypeHighlight],
-    providerImportSource: '@mdx-js/react',
-  }),
-}
-
-export default defineConfig({
-  root: path.resolve(__dirname, './'),
-  plugins: [
-    searchIndexPlugin(),
-    mdxResolver,
-    react(),
-    tailwindcss(),
-  ],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      'react/jsx-runtime': path.resolve(__dirname, './node_modules/react/jsx-runtime'),
-      'react': path.resolve(__dirname, './node_modules/react'),
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+        '@mdx-js/react': path.resolve(__dirname, './node_modules/@mdx-js/react'),
+      },
     },
-  },
-  server: {
-    fs: {
-      allow: [
-        path.resolve(__dirname, '..'),
-      ],
-      strict: false,
+    optimizeDeps: {
+      include: ['react/jsx-runtime', '@mdx-js/react'],
     },
-    watch: {
-      ignored: ['!**/content/**'],
+    ssr: {
+      noExternal: ['@mdx-js/react'],
     },
-  },
+    server: {
+      fs: {
+        allow: [
+          path.resolve(__dirname, '..'),
+        ],
+        strict: false,
+      },
+      watch: {
+        ignored: ['!**/content/**'],
+      },
+    },
+  }
 });
