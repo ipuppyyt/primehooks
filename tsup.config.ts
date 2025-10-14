@@ -12,7 +12,7 @@ export default defineConfig([
         dts: true,
         sourcemap: true,
         clean: true,
-        minify: false,
+        minify: true,
         outDir: 'dist/esm',
         async onSuccess() {
             console.log('✅ ESM build completed successfully!')
@@ -29,7 +29,7 @@ export default defineConfig([
         dts: false,
         sourcemap: true,
         clean: false,
-        minify: false,
+        minify: true,
         outDir: 'dist/cjs',
         async onSuccess() {
             console.log('✅ CJS build completed successfully!')

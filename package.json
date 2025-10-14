@@ -1,6 +1,6 @@
 {
   "name": "primehooks",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "Modern, lightweight and performance-optimized React hooks library for building powerful web applications with ease.",
   "license": "MIT",
   "author": {
@@ -12,9 +12,9 @@
   "scripts": {
     "lint": "eslint . --ext .ts,.tsx",
     "prebuild": "tsc -p tsconfig.json --noEmit",
-    "build": "tsup",
+    "build": "tsup && node scripts/copy-types.js",
     "prerelease": "tsc -p tsconfig.json --noEmit",
-    "release": "tsup && node deploy/deploy-to-github.js && npm publish"
+    "release": "tsup && node scripts/copy-types.js && node scripts/deploy-to-github.js && npm publish"
   },
   "keywords": [
     "react",
@@ -74,5 +74,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@10.15.0"
+  "packageManager": "pnpm@10.15.0",
+  "dependencies": {
+    "primehooks": "file:primehooks-1.4.4.tgz"
+  }
 }
