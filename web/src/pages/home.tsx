@@ -1,6 +1,9 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { ArrowRight, Zap, Shield, Package } from 'lucide-react'
-import { repoURL, description } from '../../../package.json'
+// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+    ArrowRight,
+    // Zap, Shield, Package 
+} from 'lucide-react'
+import { repository, description } from '../../../package.json'
 import { Button } from '@/components/ui/button'
 import { Header } from '@/components/layout'
 import { Link } from 'react-router'
@@ -15,7 +18,7 @@ export function HomePage() {
                     Primehooks
                 </h1>
                 <p className="text-xl text-muted-foreground max-w-2xl mb-8">
-                   {description} 
+                    {description}
                 </p>
                 <div className="flex gap-4">
                     <Button asChild size="lg">
@@ -24,7 +27,7 @@ export function HomePage() {
                         </Link>
                     </Button>
                     <Button asChild variant="outline" size="lg">
-                        <a href={repoURL} target="_blank" rel="noopener noreferrer">
+                        <a href={repository.url.replace('git+', '')} target="_blank" rel="noopener noreferrer">
                             View on GitHub
                         </a>
                     </Button>
@@ -32,7 +35,7 @@ export function HomePage() {
             </section>
 
             {/* Features Section */}
-            <section className="container py-20">
+            {/* <section className="container py-20">
                 <h2 className="text-3xl font-bold text-center mb-12">Why Choose This Library?</h2>
                 <div className="grid md:grid-cols-3 gap-8">
                     <Card>
@@ -65,10 +68,10 @@ export function HomePage() {
                         </CardHeader>
                     </Card>
                 </div>
-            </section>
+            </section> */}
 
             {/* Quick Example Section */}
-            <section className="container py-20">
+            {/* <section className="container py-20">
                 <h2 className="text-3xl font-bold text-center mb-12">Quick Example</h2>
                 <Card className="max-w-2xl mx-auto">
                     <CardContent className="pt-6">
@@ -89,7 +92,7 @@ function Counter() {
                         </pre>
                     </CardContent>
                 </Card>
-            </section>
+            </section> */}
         </div>
     );
 }

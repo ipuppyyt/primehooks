@@ -1,85 +1,82 @@
-import { createContext, useContext, useEffect, useState, type ReactNode, type MouseEvent } from 'react';
-import { usePrefersTheme } from 'react-haiku';
+import { useLocalStorage } from '@/hooks';
 import { flushSync } from 'react-dom';
-
+import {
+    createContext,
+    useContext,
+    useEffect,
+    type ReactNode,
+    type MouseEvent,
+} from 'react';
 
 interface ThemeContextType {
     isDarkMode: boolean;
     toggleDarkMode: (event: MouseEvent<HTMLButtonElement>) => Promise<void>;
 }
 
-
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
-
 
 interface ThemeProviderProps {
     children: ReactNode;
     initialTheme?: 'light' | 'dark';
+    storageKey?: string;
 }
 
+function getSystemPrefersDark(defaultTheme: 'light' | 'dark') {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : defaultTheme;
+    }
+    return defaultTheme;
+}
 
-export function ThemeProvider({ children, initialTheme = 'light' }: ThemeProviderProps) {
-    const preferredTheme = usePrefersTheme(initialTheme);
-    const [isDarkMode, setIsDarkMode] = useState<boolean | null>(null);
+export function ThemeProvider({
+    children,
+    initialTheme = 'light',
+    storageKey = 'theme',
+}: ThemeProviderProps) {
+    const systemDefault = getSystemPrefersDark(initialTheme);
+    const [theme, setTheme] = useLocalStorage<'light' | 'dark'>(storageKey, systemDefault);
 
+    const isDarkMode = theme === 'dark';
 
     useEffect(() => {
-        const savedTheme = document.cookie.split('; ').find(row => row.startsWith('theme='));
-        setIsDarkMode(savedTheme ? savedTheme.split('=')[1] === 'dark' : preferredTheme === 'dark');
-    }, [preferredTheme]);
-
+        document.documentElement.style.viewTransitionName = 'theme';
+    }, []);
 
     useEffect(() => {
-        if (isDarkMode === null) return;
-
-
-        document.documentElement.classList.add('transition-colors', 'duration-300', 'ease-in-out');
-
+        const root = document.documentElement;
 
         if (isDarkMode) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            document.documentElement.classList.add('dark');
-            document.cookie = 'theme=dark; path=/; max-age=31536000; SameSite=Strict; Secure;';
+            root.setAttribute('data-theme', 'dark');
+            root.classList.add('dark');
         } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            document.documentElement.classList.remove('dark');
-            document.cookie = 'theme=light; path=/; max-age=31536000; SameSite=Strict; Secure;';
+            root.setAttribute('data-theme', 'light');
+            root.classList.remove('dark');
         }
     }, [isDarkMode]);
 
-
     const toggleDarkMode = async () => {
+        const nextTheme: 'light' | 'dark' = isDarkMode ? 'light' : 'dark';
+
         if (!document.startViewTransition) {
-            setIsDarkMode((prev) => !prev);
+            setTheme(nextTheme);
             return;
         }
 
-
-        const newIsDarkMode = !isDarkMode;
-        document.cookie = `theme=${newIsDarkMode ? 'dark' : 'light'}; path=/; max-age=31536000; SameSite=Strict; Secure;`;
-
-
-        // Simple fade transition - let the View Transition API handle it
         document.startViewTransition(() => {
             flushSync(() => {
-                setIsDarkMode(newIsDarkMode);
+                setTheme(nextTheme);
             });
         });
     };
 
-
-    if (isDarkMode === null) return null;
-
-
     return (
         <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
-            <div className="relative min-h-screen overflow-hidden transition-colors duration-300 ease-in-out font-figtree">
+            <div className="relative min-h-screen overflow-hidden font-figtree">
                 {children}
             </div>
         </ThemeContext.Provider>
     );
 }
-
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {

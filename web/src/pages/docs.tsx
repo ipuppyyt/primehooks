@@ -208,9 +208,9 @@ export function DocsPage() {
                 </BreadcrumbList>
             </Breadcrumb>
 
-            <div className="flex-1 min-h-0">
-                <ScrollArea className="h-[calc(100vh-10rem)]">
-                    <div className="markdown-content">
+            <div className="flex-1 min-h-0 scrollbar-hide scrollbar-hidden">
+                <ScrollArea className="h-[calc(100vh-10rem)] scrollbar-hide scrollbar-hidden">
+                    <div className="markdown-content scrollbar-hide scrollbar-hidden">
                         <MdxComponent />
                     </div>
                 </ScrollArea>

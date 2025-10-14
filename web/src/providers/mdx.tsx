@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CodeSwitcher, MdxLink } from '@/components/atoms';
+import { CodeRunner, CodeSwitcher, MdxLink } from '@/components/atoms';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { MDXProvider as BaseMDXProvider } from '@mdx-js/react';
 import { type ReactNode } from 'react';
 
@@ -65,9 +67,18 @@ const components = {
     ),
     td: (props: any) => (
         <td className="border border-border px-4 py-2 text-left" {...props} />
+    ), 
+    Button: (props: any) => (
+        <Button {...props} />
+    ),
+    Input: (props: any) => (
+        <Input {...props} />
     ),
     CodeBlock: (props: any) => (
         <CodeSwitcher {...props} />
+    ),
+    CodeRunner: (props: any) => (
+        <CodeRunner {...props} />
     ),
 };
 

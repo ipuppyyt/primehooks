@@ -1,12 +1,13 @@
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Menu, Moon, Sun, Github } from 'lucide-react'
+import { repository, version } from '../../../../package.json'
 import { AnimatePresence, motion } from "framer-motion"
-import { repoURL } from '../../../../package.json'
+import { Menu, Moon, Sun, Github } from 'lucide-react'
 import { Link, useLocation } from 'react-router'
 import { Button } from '@/components/ui/button'
 import { SearchCommand } from '../molecules'
 import { SearchButton } from '../atoms'
 import { useTheme } from '@/providers'
+import { Badge } from '../ui/badge'
 import { Sidebar } from './sidebar'
 import { useState } from 'react'
 
@@ -35,7 +36,7 @@ export function Header() {
 
                         {/* Logo */}
                         <Link to="/" className="flex items-center space-x-2">
-                            <span className="font-bold text-xl">Primehooks</span>
+                            <span className="font-bold text-xl">Primehooks</span><Badge>v{version}</Badge>
                         </Link>
                     </div>
 
@@ -78,7 +79,7 @@ export function Header() {
                             </Button>
                             <Button variant="ghost" size="icon" asChild>
                                 <a
-                                    href={repoURL}
+                                    href={repository.url.replace('git+', '')}
                                     target="_blank"
                                     rel="noreferrer"
                                     aria-label="GitHub repository"
