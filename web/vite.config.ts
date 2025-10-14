@@ -9,6 +9,7 @@ import mdx from '@mdx-js/rollup'
 import remarkGfm from 'remark-gfm'
 import path from "path"
 
+
 export default defineConfig(({ mode }) => {
   return {
     root: path.resolve(__dirname, './'),
@@ -33,11 +34,22 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
+        'react': path.resolve(__dirname, './node_modules/react'),
+        'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
         '@mdx-js/react': path.resolve(__dirname, './node_modules/@mdx-js/react'),
       },
     },
     optimizeDeps: {
-      include: ['react/jsx-runtime', '@mdx-js/react'],
+      include: ['react/jsx-runtime', '@mdx-js/react', 'react', 'react-dom'],
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom'],
+          },
+        },
+      },
     },
     ssr: {
       noExternal: ['@mdx-js/react'],
