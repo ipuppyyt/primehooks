@@ -26,11 +26,11 @@
   ],
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./dist/esm/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.cjs"
     }
@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",
-    "@types/react": "^19.2.0",
+    "@types/react": "^19.2.2",
     "eslint-plugin-react-hooks": "^6.1.1",
     "jiti": "^2.6.1",
     "ora": "^9.0.0",
@@ -74,8 +74,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@10.15.0",
-  "dependencies": {
-    "primehooks": "file:primehooks-1.4.4.tgz"
-  }
+  "packageManager": "pnpm@10.15.0"
 }
