@@ -20,7 +20,7 @@ export interface UseFetchOptions<T = unknown> extends Omit<RequestInit, 'body'> 
     /**
      * The request body. Can be a string, FormData, Blob, or object that will be JSON stringified.
      */
-    body?: BodyInit | Record<string, any>;
+    body?: BodyInit | Record<string, unknown>;
 
     /**
      * Custom response parser function. If not provided, will attempt to parse as JSON.
