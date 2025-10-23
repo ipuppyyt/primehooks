@@ -16,19 +16,6 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
-  async function getRepoLastUpdate() {
-    const response = await fetch(
-      "https://api.github.com/repos/ipuppyyt/primehooks",
-      {
-        next: { revalidate: 3600 },
-      },
-    );
-    const data = await response.json();
-    return new Date(data.pushed_at);
-  }
-
-  const lastUpdate = await getRepoLastUpdate();
-
   const MDX = page.data.body;
 
   return (
@@ -48,9 +35,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
         sha: "main",
         path: `docs/content/docs/${page.path}`,
       }}
-      lastUpdate={
-        page.data.lastModified ? new Date(page.data.lastModified) : lastUpdate
-      }
+      lastUpdate={page.data.lastModified && new Date(page.data.lastModified)}
       full={page.data.full}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
