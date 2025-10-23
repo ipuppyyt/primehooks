@@ -65,12 +65,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Next.js app
-        run: pnpm dlx @cloudflare/next-on-pages
+        run: pnpm run build
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy out --project-name=primehooks --commit-dirty=true
+          command: pages deploy docs/out --project-name=primehooks
           packageManager: pnpm
