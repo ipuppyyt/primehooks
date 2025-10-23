@@ -85,3 +85,5 @@ export async function generateMetadata(
     },
   };
 }
+
+export const runtime = 'edge';

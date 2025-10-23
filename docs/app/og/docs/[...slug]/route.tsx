@@ -4,7 +4,7 @@ import { generate as DefaultImage } from "@/lib/mono";
 import { getPageImage, source } from "@/lib/source";
 
 export const revalidate = false;
-
+export const runtime = 'edge';
 export async function GET(
   _req: Request,
   { params }: RouteContext<"/og/docs/[...slug]">,
