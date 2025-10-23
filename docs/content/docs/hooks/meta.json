@@ -1,0 +1,6 @@
+{
+  "title": "Hooks",
+  "icon": "Code",
+  "defaultOpen": true,
+  "pages": ["use-debounce"]
+}

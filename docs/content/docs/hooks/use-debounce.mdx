@@ -1,0 +1,45 @@
+---
+title: useDebounce
+description: Returns a value that updates only after a specified idle delay, preventing rapid changes from triggering frequent effects or requests.
+---
+
+
+## Importing
+
+```tsx
+import { useDebounce } from "primehooks"
+```
+
+## Usage
+
+### Preview
+
+
+### Example
+
+```tsx ts2js
+import { useDebounce } from "primehooks";
+import { useState } from "react";
+
+export const SearchBox = () => {
+    const [value, setValue] = useState<string>("");
+    const debouncedValue = useDebounce<string>(value, 300);
+
+    return (
+        <div>
+            <Input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Type to search..." />
+            <div>Immediate: {value}</div>
+            <div>Debounced: {debouncedValue}</div>
+        </div>
+    );
+};
+```
+
+## API Reference
+
+### Parameters
+
+| Parameter | Type     | Default | Description            |
+| --------- | -------- | ------- | ---------------------- |
+| `value`   | `T`      | `—`     | The value to debounce. |
+| `delay`   | `number` | `—`     | Debounce delay in ms.  |

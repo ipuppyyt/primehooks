@@ -1,0 +1,6 @@
+{
+  "title": "Community",
+  "icon": "Users",
+  "defaultOpen": true,
+  "pages": ["contributing", "license"]
+}
