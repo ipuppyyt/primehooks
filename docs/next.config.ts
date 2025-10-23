@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   serverExternalPackages: ["oxc-transform"],
   output: 'export',
+  distDir: 'out',
   turbopack: {
     root: __dirname,
   },
