@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { config } from "@/config";
 import { source } from "@/lib/source";
 
-export const dynamic = 'force-static';
+export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = source.getPages();
