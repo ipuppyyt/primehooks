@@ -6,6 +6,7 @@ const withMDX = createMDX();
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   serverExternalPackages: ["oxc-transform"],
+  output: 'export',
   turbopack: {
     root: __dirname,
   },
