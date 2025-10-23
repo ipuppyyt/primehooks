@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      primehooks:
+        specifier: ^1.4.7
+        version: 1.4.7(react@19.2.0)
       react:
         specifier: '>=18'
         version: 19.2.0
@@ -1081,6 +1084,11 @@ packages:
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+
+  primehooks@1.4.7:
+    resolution: {integrity: sha512-MI71FDy+r3OK1Hg2n8oyrPwEPSNIcJd8yG98JVxygFt76zqZQ01tmL7UyNgvZXB0D9hWQLRPKohlszjF1CKFPg==}
+    peerDependencies:
+      react: '>=18'
 
   prompts@2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
@@ -2287,6 +2295,10 @@ snapshots:
       jiti: 2.6.1
 
   prelude-ls@1.2.1: {}
+
+  primehooks@1.4.7(react@19.2.0):
+    dependencies:
+      react: 19.2.0
 
   prompts@2.4.2:
     dependencies:

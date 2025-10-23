@@ -73,5 +73,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@10.15.0"
+  "packageManager": "pnpm@10.15.0",
+  "dependencies": {
+    "primehooks": "^1.4.7"
+  }
 }
